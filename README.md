@@ -94,7 +94,7 @@ $ python astra "add JWT authentication to the FastAPI app"
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/yourusername/astra.git
+git clone https://github.com/codewith-aditya/astra-code
 cd astra
 pip install -r requirements.txt
 ```
