@@ -18,7 +18,8 @@
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.0.0-red?style=for-the-badge)]()
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
-[![Claude Code Killer](https://img.shields.io/badge/Claude%20Code-Challenger%20👊-black?style=for-the-badge)]()
+[![Claude Code Challenger
+Built to challenge Claude Code](https://img.shields.io/badge/Claude%20Code-Challenger%20👊-black?style=for-the-badge)]()
 
 </div>
 
@@ -529,7 +530,7 @@ astra/
 | 🤖 LLM Providers | 2 |
 | 🔁 Max Agent Iterations | 30 |
 | 💾 Auto Retry | 3x exponential backoff |
-| ⏱️ Built in | 17 minutes 38 seconds |
+| Open-source coding agent inspired by modern AI developer tools. |
 
 ---
 
@@ -565,7 +566,7 @@ MIT © 2025
 
 <div align="center">
 
-**Built in 17 minutes. Powered by obsession. 🔥**
+**Built by developers who wanted a powerful open coding agent.. 🔥**
 
 *ASTRA — Open source. Self-hosted. Built to challenge Claude Code.*
 
