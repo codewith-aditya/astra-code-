@@ -65,41 +65,24 @@ class TokenTracker:
 
 
 class StreamBuffer:
-    """Word-aware stream buffer that avoids breaking words mid-stream."""
+    """Simple stream buffer — prints chunks immediately as they arrive."""
 
     def __init__(self) -> None:
-        self._buffer: str = ""
         self._total: str = ""
         self._first_chunk: bool = True
-        self.on_first_chunk: Any = None  # callback when first chunk arrives
+        self.on_first_chunk: Any = None
 
     def add(self, chunk: str) -> None:
-        """Add a chunk and flush complete words."""
         if self._first_chunk and chunk.strip():
             self._first_chunk = False
             if self.on_first_chunk:
                 self.on_first_chunk()
 
-        self._buffer += chunk
         self._total += chunk
-
-        # Find last word boundary (space, newline, tab)
-        last_break = -1
-        for i in range(len(self._buffer) - 1, -1, -1):
-            if self._buffer[i] in (" ", "\n", "\t", "\r"):
-                last_break = i
-                break
-
-        if last_break >= 0:
-            to_print = self._buffer[: last_break + 1]
-            self._buffer = self._buffer[last_break + 1 :]
-            self._write(to_print)
+        self._write(chunk)
 
     def flush(self) -> str:
-        """Flush remaining buffer and return full text."""
-        if self._buffer:
-            self._write(self._buffer)
-            self._buffer = ""
+        """Return full text (nothing buffered to flush)."""
         return self._total
 
     @staticmethod
@@ -108,7 +91,6 @@ class StreamBuffer:
             sys.stdout.write(text)
             sys.stdout.flush()
         except (UnicodeEncodeError, OSError):
-            # Fallback: replace unencodable chars
             safe = text.encode("utf-8", errors="replace").decode("utf-8", errors="replace")
             sys.stdout.write(safe)
             sys.stdout.flush()

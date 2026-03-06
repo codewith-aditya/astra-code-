@@ -12,7 +12,8 @@ from typing import Any
 
 from rich.console import Console
 from rich.panel import Panel
-from rich.status import Status
+from rich.spinner import Spinner
+from rich.live import Live
 from rich.text import Text
 from rich.theme import Theme
 
@@ -46,6 +47,34 @@ _THINKING_PHASES = [
     "Processing",
     "Reasoning",
 ]
+
+_SPINNERS = ["dots2", "dots2", "dots2", "dots2", "dots2"]
+
+# Circular orb spinner frames
+_ORB_FRAMES = ["◐", "◓", "◑", "◒"]
+
+# Register custom spinner in Rich
+from rich.spinner import SPINNERS as _RICH_SPINNERS
+_RICH_SPINNERS["orb"] = {"interval": 120, "frames": _ORB_FRAMES}
+
+
+class _CircleStatus:
+    """Animated circular orb spinner with label text."""
+
+    def __init__(self, text: str, console: Console) -> None:
+        self._text = text
+        self._console = console
+        self._spinner = Spinner("orb", text, style="bold cyan")
+        self._live: Live | None = None
+
+    def start(self) -> None:
+        self._live = Live(self._spinner, console=self._console, refresh_per_second=12, transient=True)
+        self._live.start()
+
+    def stop(self) -> None:
+        if self._live:
+            self._live.stop()
+            self._live = None
 
 
 def _phase_label(iteration: int) -> str:
@@ -93,6 +122,7 @@ class AgentController:
         self.iteration = 0
         self.plugins: dict[str, list[str]] = {}
         self._subagent_mgr = None
+        self._auto_approved_tools: set[str] = set()  # tools approved with "always"
 
         # Load plugins
         self._load_plugins()
@@ -160,10 +190,9 @@ class AgentController:
             phase = _phase_label(self.iteration)
 
             # Show thinking status
-            status_handle = Status(
+            status_handle = _CircleStatus(
                 f"[bold cyan]  {phase}...[/bold cyan]",
                 console=console,
-                spinner="dots",
             )
             status_handle.start()
 
@@ -252,11 +281,10 @@ class AgentController:
     def repl(self) -> None:
         console.print()
         console.print(Panel(
-            "[bold cyan]Astra[/bold cyan] [dim]v0.1.0[/dim] - AI Coding Agent\n"
-            "Type your request, or [bold]/help[/bold] to see commands.\n"
-            "[dim]Ctrl+C to interrupt, /exit to quit[/dim]",
-            border_style="bright_blue",
-            padding=(1, 2),
+            "[bold cyan]  ◆ ASTRA[/bold cyan] [dim]v0.1.0[/dim]  —  AI Coding Agent\n"
+            "[dim]  Type your request · [bold]/help[/bold] for commands · Ctrl+C to stop · /exit to quit[/dim]",
+            border_style="cyan",
+            padding=(0, 2),
         ))
 
         # Show startup info
@@ -287,8 +315,9 @@ class AgentController:
         suggestions = get_prompt_suggestions(self.context.messages, self.config.repo_path)
         if suggestions:
             console.print()
+            console.print("  [dim]Try:[/dim]")
             for s in suggestions:
-                console.print(f"  [dim]> {s}[/dim]")
+                console.print(f"  [dim]  • {s}[/dim]")
 
         while True:
             try:
@@ -338,8 +367,9 @@ class AgentController:
             suggestions = get_prompt_suggestions(self.context.messages)
             if suggestions:
                 console.print()
+                console.print("  [dim]Try:[/dim]")
                 for s in suggestions:
-                    console.print(f"  [dim]> {s}[/dim]")
+                    console.print(f"  [dim]  • {s}[/dim]")
 
         # Cleanup
         self._print_session_summary()
@@ -394,10 +424,10 @@ class AgentController:
             args = tc["arguments"]
             call_id = tc["id"]
 
-            # Tool call display - compact format
+            # Tool call display
             args_preview = self._compact_args(args)
             console.print(
-                f"\n  [bold yellow]{name}[/bold yellow] [dim]{args_preview}[/dim]"
+                f"\n  [bold yellow]⚡ {name}[/bold yellow] [dim]{args_preview}[/dim]"
             )
 
             # Plan mode block
@@ -432,13 +462,17 @@ class AgentController:
                 continue
 
             if perm == "ask" and not self.config.auto_approve_tools:
-                if not self._confirm_tool(name, args):
-                    results.append({
-                        "type": "tool_result",
-                        "tool_use_id": call_id,
-                        "content": json.dumps({"error": "User denied tool execution."}),
-                    })
-                    continue
+                if name not in self._auto_approved_tools:
+                    decision = self._confirm_tool(name, args)
+                    if decision == "deny":
+                        results.append({
+                            "type": "tool_result",
+                            "tool_use_id": call_id,
+                            "content": json.dumps({"error": "User denied tool execution."}),
+                        })
+                        continue
+                    elif decision == "always":
+                        self._auto_approved_tools.add(name)
 
             # Sandbox check
             if name in ("write_file", "edit_file"):
@@ -460,8 +494,12 @@ class AgentController:
 
             # Execute with spinner
             tool_start = time.time()
-            with Status(f"[dim]  Running {name}...[/dim]", console=console, spinner="dots"):
+            tool_spinner = _CircleStatus(f"[dim]  Running {name}...[/dim]", console=console)
+            tool_spinner.start()
+            try:
                 result = asyncio.run(self.registry.execute(name, **args))
+            finally:
+                tool_spinner.stop()
             tool_time = time.time() - tool_start
 
             result_str = json.dumps(result, indent=2, default=str)
@@ -472,17 +510,17 @@ class AgentController:
             # Post-tool hook
             self.hook_mgr.fire("PostToolUse", {"tool": name, "args": args, "result": result_str[:500]})
 
-            # Show result - compact
-            display = result_str[:1500]
-            if len(result_str) > 1500:
-                display += f"\n... ({len(result_str):,} chars total)"
-
-            console.print(Panel(
-                display,
-                title=f"[bold]{name}[/bold] [dim]{_format_time(tool_time)}[/dim]",
-                border_style="green",
-                padding=(0, 1),
-            ))
+            # Show result - smart display based on tool type
+            display = self._format_tool_result(name, result)
+            console.print(
+                f"  [dim green]✓[/dim green] [dim]{name}[/dim] [dim]({_format_time(tool_time)})[/dim]"
+            )
+            if display:
+                console.print(Panel(
+                    display,
+                    border_style="dim green",
+                    padding=(0, 1),
+                ))
 
             results.append({
                 "type": "tool_result",
@@ -491,6 +529,64 @@ class AgentController:
             })
 
         return results
+
+    @staticmethod
+    def _format_tool_result(name: str, result: dict) -> str:
+        """Format tool result for display — clean, human-readable."""
+        if "error" in result:
+            return f"[red]Error:[/red] {result['error']}"
+
+        # run_command: show stdout/stderr cleanly, not as JSON
+        if name == "run_command":
+            parts = []
+            stdout = result.get("stdout", "").strip()
+            stderr = result.get("stderr", "").strip()
+            exit_code = result.get("exit_code", 0)
+
+            if stdout:
+                # Truncate long output
+                lines = stdout.splitlines()
+                if len(lines) > 30:
+                    shown = "\n".join(lines[:15]) + f"\n[dim]... ({len(lines) - 15} more lines)[/dim]\n" + "\n".join(lines[-5:])
+                else:
+                    shown = stdout
+                parts.append(shown)
+            if stderr:
+                stderr_lines = stderr.splitlines()
+                shown_err = "\n".join(stderr_lines[:10])
+                parts.append(f"[yellow]{shown_err}[/yellow]")
+            if exit_code != 0:
+                parts.append(f"[red]exit code: {exit_code}[/red]")
+
+            return "\n".join(parts) if parts else "[dim]Done (no output)[/dim]"
+
+        # read_file / write_file / edit_file: brief status
+        if name in ("write_file", "edit_file", "multi_edit"):
+            path = result.get("path", "")
+            status = result.get("status", "ok")
+            replacements = result.get("replacements", "")
+            rep_str = f" ({replacements} replacement{'s' if replacements != 1 else ''})" if replacements else ""
+            return f"[green]{status}[/green] {path}{rep_str}"
+
+        if name == "read_file":
+            content = result.get("content", "")
+            lines = content.splitlines() if content else []
+            return f"[dim]{len(lines)} lines read[/dim]"
+
+        # glob/grep: show matches count
+        if name in ("glob_search", "grep_search", "search_code"):
+            matches = result.get("matches", result.get("files", []))
+            if isinstance(matches, list):
+                count = len(matches)
+                preview = "\n".join(str(m) for m in matches[:8])
+                suffix = f"\n[dim]... {count - 8} more[/dim]" if count > 8 else ""
+                return f"[dim]{count} match{'es' if count != 1 else ''}[/dim]\n{preview}{suffix}" if preview else f"[dim]{count} matches[/dim]"
+
+        # Default: compact JSON, max 800 chars
+        raw = json.dumps(result, indent=2, default=str)
+        if len(raw) > 800:
+            return raw[:800] + f"\n[dim]... ({len(raw):,} chars total)[/dim]"
+        return raw
 
     @staticmethod
     def _compact_args(args: dict) -> str:
@@ -509,10 +605,18 @@ class AgentController:
         return preview
 
     @staticmethod
-    def _confirm_tool(name: str, args: dict) -> bool:
-        console.print(f"  [bold yellow]Approve {name}?[/bold yellow] (y/n) ", end="")
+    def _confirm_tool(name: str, args: dict) -> str:
+        """Ask user to approve a tool. Returns 'allow', 'deny', or 'always'."""
+        console.print(
+            f"\n  [bold yellow]⚠ Approve [cyan]{name}[/cyan]?[/bold yellow]  "
+            f"[dim]y[/dim] yes  [dim]n[/dim] no  [dim]a[/dim] always"
+        )
         try:
-            answer = console.input("").strip().lower()
+            answer = console.input("  [dim]>[/dim] ").strip().lower()
         except (EOFError, KeyboardInterrupt):
-            return False
-        return answer in ("y", "yes")
+            return "deny"
+        if answer in ("a", "always"):
+            return "always"
+        if answer in ("y", "yes"):
+            return "allow"
+        return "deny"

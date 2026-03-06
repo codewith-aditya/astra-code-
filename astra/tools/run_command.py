@@ -42,8 +42,9 @@ def handle_run_command(
 
     return {
         "exit_code": result.returncode,
-        "stdout": result.stdout[-10000:] if result.stdout else "",
-        "stderr": result.stderr[-5000:] if result.stderr else "",
+        "stdout": result.stdout[-8000:] if result.stdout else "",
+        "stderr": result.stderr[-2000:] if result.stderr else "",
+        "truncated": len(result.stdout or "") > 8000,
     }
 
 
