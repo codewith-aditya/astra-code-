@@ -549,7 +549,7 @@ astra/
 PRs welcome. Read `ASTRA.md` before contributing — it explains the full architecture.
 
 ```bash
-git clone https://github.com/yourusername/astra.git
+git clone https://github.com/codewith-aditya/astra-code
 cd astra
 pip install -r requirements.txt
 python astra
