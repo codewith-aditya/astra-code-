@@ -1,16 +1,20 @@
 <div align="center">
 
 ```
-╔══════════════════════════════════════════════════════════╗
-║                        A S T R A                        ║
-║         Elite AI Software Engineering Agent             ║
-║              12 Tools · 34 Commands · 21 Modules        ║
-╚══════════════════════════════════════════════════════════╝
+ █████╗ ███████╗████████╗██████╗  █████╗ 
+██╔══██╗██╔════╝╚══██╔══╝██╔══██╗██╔══██╗
+███████║███████╗   ██║   ██████╔╝███████║
+██╔══██║╚════██║   ██║   ██╔══██╗██╔══██║
+██║  ██║███████║   ██║   ██║  ██║██║  ██║
+╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝
 ```
 
+### **Elite AI Software Engineering Agent**
 **Not a chatbot. A principal engineer that lives in your terminal.**
 
-> 🥊 *Built to challenge Claude Code. Open source. Python. Yours.*
+> 🥊 *Open source. Self-hosted. Built to challenge Claude Code.*
+
+<br/>
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Claude](https://img.shields.io/badge/Claude-Sonnet%20%7C%20Opus-orange?style=for-the-badge&logo=anthropic&logoColor=white)](https://anthropic.com)
@@ -18,7 +22,10 @@
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.0.0-red?style=for-the-badge)]()
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
-[![Claude Code Killer](https://img.shields.io/badge/Claude%20Code-Challenger%20👊-black?style=for-the-badge)]()
+
+<br/>
+
+**[Quick Start](#-quickstart) · [Features](#-features) · [All Commands](#%EF%B8%8F-all-34-slash-commands) · [Tools](#%EF%B8%8F-all-12-tools) · [Roadmap](#-roadmap)**
 
 </div>
 
@@ -26,45 +33,21 @@
 
 ## 🧠 What is ASTRA?
 
-ASTRA is a **Claude Code-style AI coding agent** that runs entirely in your terminal. Give it a task — it explores your codebase, makes a plan, executes changes, verifies the result, and reports back. No hand-holding. No fluff.
+ASTRA is a **Claude Code-style AI coding agent** that runs entirely in your terminal.
 
-It thinks like a **principal engineer**: reads before touching, plans before executing, verifies before reporting.
+Give it a task — it explores your codebase, makes a plan, executes changes, verifies the result, and reports back. No subscriptions. No cloud. No hand-holding.
 
----
-
-## 🥊 ASTRA vs Claude Code
-
-| Feature | ASTRA | Claude Code |
-|---------|-------|-------------|
-| **Open Source** | ✅ MIT License | ❌ Closed source |
-| **Self-hosted** | ✅ Runs on your machine | ❌ Anthropic servers |
-| **Multi-LLM** | ✅ Claude + GPT-4o + custom proxy | ⚠️ Claude only |
-| **Custom API Proxy** | ✅ Any base URL | ❌ No |
-| **Plugin System** | ✅ Drop `.py` → auto-registered | ❌ No |
-| **MCP Support** | ✅ Full MCP server management | ✅ Yes |
-| **Subagents** | ✅ Foreground + background | ✅ Yes |
-| **Plan Mode** | ✅ `/plan` — read-only, zero writes | ✅ Yes |
-| **Sandbox Mode** | ✅ Fully isolated execution | ⚠️ Limited |
-| **Checkpoint / Rewind** | ✅ Any prior state, instant | ❌ No |
-| **Session Save/Load** | ✅ Save, load, fork, rename | ⚠️ Limited |
-| **Git Worktree** | ✅ Parallel branches built-in | ❌ No |
-| **Hooks System** | ✅ pre/post tool, on-error | ❌ No |
-| **Rules System** | ✅ `.astra/rules/*.md` | ✅ CLAUDE.md |
-| **Persistent Memory** | ✅ Cross-session memory | ✅ Yes |
-| **Cost Tracking** | ✅ Real-time tokens + $ | ✅ Yes |
-| **Slash Commands** | ✅ **34 commands** | ⚠️ Fewer |
-| **Tools** | ✅ **12 tools** | ✅ Similar |
-| **Headless / Pipe Mode** | ✅ `--pipe` flag | ✅ Yes |
-| **JSON Output** | ✅ `--output-format json` | ✅ Yes |
-| **Price** | ✅ **Free** (your API key) | ❌ Paid subscription |
-
-> ASTRA is what Claude Code would be if it were **open, extensible, and yours.**
+It thinks like a **principal engineer**:
+- 📖 **Reads before touching** — always understands context first
+- 📋 **Plans before executing** — no blind edits, ever
+- ✅ **Verifies before reporting** — runs tests, checks output
+- 🛑 **Stops when unsure** — asks you, doesn't guess
 
 ```
 $ python astra "add JWT authentication to the FastAPI app"
 
 ╔══════════════════════════════════════════════════════════╗
-║                        A S T R A                   v1.0 ║
+║                     A S T R A                      v1.0 ║
 ╚══════════════════════════════════════════════════════════╝
 
 🔍 ANALYSIS     Scanning project structure...
@@ -89,6 +72,36 @@ $ python astra "add JWT authentication to the FastAPI app"
 
 ---
 
+## 🥊 ASTRA vs Claude Code
+
+| Feature | ASTRA | Claude Code |
+|---|---|---|
+| **Open Source** | ✅ MIT License | ❌ Closed source |
+| **Self-hosted** | ✅ Runs on your machine | ❌ Anthropic servers |
+| **Price** | ✅ **Free** (your API key) | ❌ Paid subscription |
+| **Multi-LLM** | ✅ Claude + GPT-4o + Ollama + custom proxy | ⚠️ Claude only |
+| **Custom API Proxy** | ✅ Any base URL | ❌ No |
+| **Plugin System** | ✅ Drop `.py` → auto-registered | ❌ No |
+| **MCP Support** | ✅ Full MCP server management | ✅ Yes |
+| **Subagents** | ✅ Foreground + background | ✅ Yes |
+| **Plan Mode** | ✅ `/plan` — read-only, zero writes | ✅ Yes |
+| **Sandbox Mode** | ✅ Fully isolated execution | ⚠️ Limited |
+| **Checkpoint / Rewind** | ✅ Any prior state, instant | ❌ No |
+| **Session Save/Load** | ✅ Save, load, fork, rename | ⚠️ Limited |
+| **Git Worktree** | ✅ Parallel branches built-in | ❌ No |
+| **Hooks System** | ✅ pre/post tool, on-error | ❌ No |
+| **Rules System** | ✅ `.astra/rules/*.md` | ✅ CLAUDE.md |
+| **Persistent Memory** | ✅ Cross-session memory | ✅ Yes |
+| **Cost Tracking** | ✅ Real-time tokens + $ | ✅ Yes |
+| **Slash Commands** | ✅ **34 commands** | ⚠️ Fewer |
+| **Tools** | ✅ **12 tools** | ✅ Similar |
+| **Headless / Pipe Mode** | ✅ `--pipe` flag | ✅ Yes |
+| **JSON Output** | ✅ `--output-format json` | ✅ Yes |
+
+> ASTRA is what Claude Code would be if it were **open, extensible, and entirely yours.**
+
+---
+
 ## ⚡ Quickstart
 
 ### 1. Clone & Install
@@ -102,14 +115,18 @@ pip install -r requirements.txt
 ### 2. Set API Key
 
 ```bash
-# For Claude (recommended)
+# Ollama (free, local — no API key needed)
+export ANTHROPIC_BASE_URL=http://localhost:11434/v1
+export ANTHROPIC_API_KEY=ollama
+
+# Claude
 export ANTHROPIC_API_KEY=sk-ant-...
 
-# For GPT-4o
+# GPT-4o
 export OPENAI_API_KEY=sk-...
 ```
 
-### 3. Run ASTRA
+### 3. Run
 
 ```bash
 python astra
@@ -119,18 +136,16 @@ That's it. You're in. 🔥
 
 ---
 
-## 🚀 How to Use
+## 🚀 Usage
 
-### ▶ Basic — Just Talk to It
-
-Navigate to any project and run:
+### ▶ Interactive Mode
 
 ```bash
 cd your-project/
 python astra
 ```
 
-Then type your task naturally:
+Just describe what you want:
 
 ```
 You: fix the bug in the payment module where decimal rounding fails
@@ -139,11 +154,11 @@ You: add unit tests for all functions in src/utils.py
 You: find all places where we're not handling None and fix them
 ```
 
-ASTRA will explore, plan, execute, and verify — all on its own.
+ASTRA will explore, plan, execute, and verify — entirely on its own.
 
 ---
 
-### ▶ One-Shot Mode — Single Task, Then Exit
+### ▶ One-Shot Mode
 
 ```bash
 python astra "add input validation to all API endpoints"
@@ -151,17 +166,15 @@ python astra "add input validation to all API endpoints"
 
 ---
 
-### ▶ Pipe Mode — Headless / CI Friendly
+### ▶ Pipe Mode — CI/CD Friendly
 
 ```bash
 echo "update all dependencies to latest versions" | python astra --pipe
 ```
 
-Perfect for CI/CD pipelines and automation scripts.
-
 ---
 
-### ▶ JSON Output — For Scripting & Integrations
+### ▶ JSON Output — For Scripting
 
 ```bash
 python astra --output-format json "list all TODO comments in the codebase"
@@ -169,7 +182,7 @@ python astra --output-format json "list all TODO comments in the codebase"
 
 ---
 
-### ▶ Limit Agent Turns — Cost Control
+### ▶ Limit Turns — Cost Control
 
 ```bash
 python astra --max-turns 5 "cleanup unused imports across the project"
@@ -177,13 +190,15 @@ python astra --max-turns 5 "cleanup unused imports across the project"
 
 ---
 
-### ▶ Plan Mode — See the Plan, Don't Execute
+## 🌟 Features
+
+### 📋 Plan Mode — See Before You Touch
 
 ```bash
 /plan add Redis caching to the product listing endpoint
 ```
 
-ASTRA produces a full implementation plan — files, steps, risks — without touching a single file.
+ASTRA produces a full implementation plan — files, steps, risks — **without touching a single file.**
 
 ```
 📂 FILES IMPACTED
@@ -213,29 +228,18 @@ ASTRA produces a full implementation plan — files, steps, risks — without to
 
 📌 SUMMARY
   Adds Redis caching to get_products() with 5min TTL and graceful
-  fallback. Two files created, one modified. Watch for stale cache
-  on product updates.
+  fallback. Two files created, one modified.
 ```
 
 ---
 
-### ▶ Sandbox Mode — Safe Experimentation
+### 🤖 Subagents — Parallel Execution
 
-```bash
-/sandbox
-```
-
-Runs commands in an isolated environment. Nothing escapes. Safe for untrusted or destructive scripts.
-
----
-
-### ▶ Subagents — Parallel Execution
+Split work across multiple agents running simultaneously:
 
 ```
-You: split this — agent 1 write tests, agent 2 write docs
-```
+You: agent 1 write tests, agent 2 write docs
 
-```
 🤖 Agent "write-tests"  → running in background
 🤖 Agent "write-docs"   → running in background
 ✅ Agent "write-tests"  → completed (47 tests written)
@@ -244,21 +248,9 @@ You: split this — agent 1 write tests, agent 2 write docs
 
 ---
 
-### ▶ Memory — Persistent Instructions
+### ⏪ Checkpoint & Rewind
 
-```bash
-/remember always use async functions in this project
-/remember this codebase uses snake_case everywhere
-/forget always use async functions
-```
-
-Saves to `.astra/memory.json` — survives every restart.
-
----
-
-### ▶ Checkpoint & Rewind
-
-ASTRA auto-checkpoints before every risky operation.
+ASTRA auto-checkpoints before every risky operation. Made a mistake? Just rewind.
 
 ```bash
 /rewind       # go back one step
@@ -267,97 +259,97 @@ ASTRA auto-checkpoints before every risky operation.
 
 ---
 
-### ▶ Git Workflow
+### 🧠 Persistent Memory
+
+```bash
+/remember always use async functions in this project
+/remember this codebase uses snake_case everywhere
+/forget always use async functions
+```
+
+Saves to `.astra/memory.json` — survives every restart, every session.
+
+---
+
+### 🔀 Git Workflow
 
 ```bash
 /diff         # see what changed
 /commit       # git add + commit in one shot
 /pr           # push branch + open GitHub PR instantly
-/worktree     # spin up parallel git branch
+/worktree     # spin up a parallel git branch
 ```
 
 ---
 
-### ▶ Switch Models Anytime
+### 🔌 Switch Models Anytime
 
 ```bash
-/model sonnet     # Claude Sonnet — fast, smart (default)
+/model llama3     # Ollama local — free, offline
+/model codellama  # Ollama local — best for code
+/model mistral    # Ollama local — fastest local model
+/model sonnet     # Claude Sonnet — fast, smart
 /model opus       # Claude Opus  — most powerful
 /model haiku      # Claude Haiku — fastest, cheapest
 /model gpt4o      # GPT-4o       — OpenAI alternative
-/model llama3     # Ollama local — free, offline
-/model codellama  # Ollama local — best for code
 ```
 
 ---
 
-### ▶ 🦙 Ollama — Run 100% Locally, Zero API Cost
+### 🦙 Ollama — Run 100% Locally, Zero API Cost
 
-ASTRA connects to Ollama via `ANTHROPIC_BASE_URL`. No subscription. No cloud. Fully offline.
+No subscription. No cloud. Fully offline.
 
 **Step 1 — Install & pull a model:**
 ```bash
-# Install Ollama
 curl -fsSL https://ollama.ai/install.sh | sh
-
-# Pull your model
-ollama pull llama3       # general purpose
-ollama pull codellama    # best for coding tasks
-ollama pull mistral      # fast + smart
+ollama pull codellama    # best for coding
+ollama pull llama3       # best for reasoning
+ollama pull mistral      # fastest
 ```
 
-**Step 2 — Set env vars:**
+**Step 2 — Configure:**
 ```bash
 export ANTHROPIC_BASE_URL=http://localhost:11434/v1
-export ANTHROPIC_API_KEY=ollama    # any string — Ollama ignores it
+export ANTHROPIC_API_KEY=ollama
 ```
 
-**Step 3 — Run ASTRA:**
+**Step 3 — Run:**
 ```bash
 python astra
-/model codellama    # switch to local model
+/model codellama
 ```
 
-**One-shot inline:**
+Or inline:
 ```bash
 ANTHROPIC_BASE_URL=http://localhost:11434/v1 \
 ANTHROPIC_API_KEY=ollama \
 python astra "refactor this function to be async"
 ```
 
-**Or put it in `.env`:**
-```dotenv
-ANTHROPIC_BASE_URL=http://localhost:11434/v1
-ANTHROPIC_API_KEY=ollama
-```
-
-> 💡 `codellama` for coding. `llama3` for reasoning. `mistral` for speed.
-
 ---
 
-### ▶ 🔌 Custom API Proxy (LiteLLM, Orbit, OpenRouter)
+### 🔁 Custom API Proxy
 
-Any OpenAI-compatible proxy works:
+Works with LiteLLM, Orbit, OpenRouter, LocalAI — any OpenAI-compatible endpoint:
 
 ```dotenv
 ANTHROPIC_BASE_URL=https://your-proxy.com/v1
 ANTHROPIC_API_KEY=your_key_here
 ```
 
-Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compatible endpoint.
-
 ---
 
 ## 🛠️ All 12 Tools
 
-| # | Tool | What it does |
+| # | Tool | Description |
 |---|------|-------------|
 | 1 | `read_file` | Read any file with line numbers, offset + limit |
-| 2 | `write_file` | Create a new file or fully overwrite |
+| 2 | `write_file` | Create or fully overwrite a file |
 | 3 | `edit_file` | Surgical search-and-replace with ambiguity detection |
 | 4 | `multi_edit` | Multiple edits to one file in a single call |
 | 5 | `list_files` | Directory listing with glob filter + depth limit |
-| 6 | `search_code` | Semantic search across entire codebase |
+| 6 | `search_code` | Semantic search across the entire codebase |
 | 7 | `grep_search` | Regex/literal search — fast, precise, line-level |
 | 8 | `glob_search` | Find files by pattern (`**/*.test.ts`) |
 | 9 | `run_command` | Execute shell commands (safety blocklist enforced) |
@@ -372,20 +364,20 @@ Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compa
 ## ⌨️ All 34 Slash Commands
 
 ### Core
-| Command | What it does |
+| Command | Description |
 |---------|-------------|
 | `/help` | Show all available commands |
 | `/init` | Generate `ASTRA.md` project config |
-| `/model` | Switch model (`sonnet` / `opus` / `haiku` / `gpt4o`) |
+| `/model` | Switch model on the fly |
 | `/clear` | Clear conversation + screen |
 | `/compact` | Compress context to save tokens |
-| `/cost` | Show token usage + dollar cost estimate |
+| `/cost` | Show token usage + dollar estimate |
 | `/status` | Show repo, model, plugins, memory status |
 | `/config` | View or change config live |
 | `/exit` | Exit ASTRA |
 
 ### Git & Version Control
-| Command | What it does |
+| Command | Description |
 |---------|-------------|
 | `/diff` | Show uncommitted git diff |
 | `/commit` | `git add` + commit in one command |
@@ -394,7 +386,7 @@ Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compa
 | `/fork` | Fork current session into a new branch |
 
 ### Session Management
-| Command | What it does |
+| Command | Description |
 |---------|-------------|
 | `/save` | Save conversation to disk |
 | `/load` | Load a saved conversation |
@@ -404,30 +396,30 @@ Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compa
 | `/export` | Export conversation to file |
 
 ### Planning & Execution
-| Command | What it does |
+| Command | Description |
 |---------|-------------|
 | `/plan` | Generate plan without executing anything |
 | `/sandbox` | Run next command in isolated sandbox |
 | `/agents` | View and manage running subagents |
 
 ### Memory & Rules
-| Command | What it does |
+| Command | Description |
 |---------|-------------|
-| `/remember` | Save a permanent instruction (persists across sessions) |
-| `/forget` | Remove an entry from memory |
+| `/remember` | Save a permanent instruction |
+| `/forget` | Remove a memory entry |
 | `/rules` | View active rules from `.astra/rules/` |
 | `/permissions` | View + manage what ASTRA can and cannot do |
 | `/hooks` | View + configure lifecycle hooks |
 
 ### Context & Diagnostics
-| Command | What it does |
+| Command | Description |
 |---------|-------------|
-| `/context` | Visualize live context window token usage |
+| `/context` | Visualize live context window usage |
 | `/doctor` | Run full diagnostics — tools, keys, config |
 | `/telemetry` | View historical usage stats |
 
 ### Extensibility
-| Command | What it does |
+| Command | Description |
 |---------|-------------|
 | `/plugins` | List all loaded plugins |
 | `/mcp` | Manage MCP servers + discover external tools |
@@ -438,7 +430,7 @@ Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compa
 
 | Feature | Description |
 |---------|-------------|
-| **ASTRA.md Auto-load** | Project config auto-loads every startup |
+| **ASTRA.md Auto-load** | Project config auto-loads on every startup |
 | **Persistent Memory** | `/remember` saves across sessions to `.astra/memory.json` |
 | **File Backup** | Every edit auto-backed up to `.astra_backups/` |
 | **Checkpoint / Rewind** | Restore any prior state instantly |
@@ -448,10 +440,10 @@ Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compa
 | **Sandbox Mode** | Isolated execution — nothing escapes |
 | **Hooks System** | `pre_tool`, `post_tool`, `on_error` lifecycle events |
 | **Git Worktree** | Parallel branches without touching main workspace |
-| **Context Trimming** | Auto-trim + `/compact` to preserve quality |
-| **Cost Tracking** | Real-time tokens + dollar estimate after every run |
+| **Context Trimming** | Auto-trim + `/compact` to preserve response quality |
+| **Cost Tracking** | Real-time token + dollar estimate after every run |
 | **Dual LLM Support** | Anthropic Claude + OpenAI GPT-4o |
-| **Streaming Output** | Real-time token-by-token in terminal |
+| **Streaming Output** | Real-time token-by-token streaming in terminal |
 | **Auto Retry** | 3x retry with exponential backoff on API failure |
 | **Safety Blocklist** | `rm -rf /`, `mkfs`, `shutdown` — hard blocked |
 | **`.gitignore` Respect** | Search + list tools never touch ignored files |
@@ -459,7 +451,7 @@ Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compa
 
 ---
 
-## 🔒 Safety
+## 🔒 Safety First
 
 ```
 ⛔ Never deletes files without your explicit confirmation
@@ -468,6 +460,7 @@ Works with LiteLLM, Orbit, OpenRouter, LocalAI — anything with an OpenAI-compa
 ⛔ Never executes multi-file refactors without showing you the plan
 ⛔ Never bypasses the tool approval gate
 ⛔ Never exceeds your granted permissions
+
 ✅ Auto-backs up every file to .astra_backups/ before editing
 ✅ Checkpoints before every risky operation
 ✅ When in doubt — STOPS, EXPLAINS, ASKS
@@ -526,10 +519,10 @@ astra/
 | ⌨️ Slash Commands | 34 |
 | 🧩 Core Modules | 21 |
 | 🚀 Features Shipped | 30+ |
-| 🤖 LLM Providers | 2 |
+| 🤖 LLM Providers | 3 (Claude, GPT-4o, Ollama) |
 | 🔁 Max Agent Iterations | 30 |
 | 💾 Auto Retry | 3x exponential backoff |
-| ⏱️ Built in | 17 minutes 38 seconds |
+| 📅 Days to Build | 31 |
 
 ---
 
@@ -546,7 +539,7 @@ astra/
 
 ## 🤝 Contributing
 
-PRs welcome. Read `ASTRA.md` before contributing — it explains the full architecture.
+PRs welcome. Run `/init` after cloning to generate `ASTRA.md` — it explains the full architecture before you start.
 
 ```bash
 git clone https://github.com/codewith-aditya/astra-code
@@ -559,13 +552,13 @@ python astra
 
 ## 📄 License
 
-MIT © 2025
+MIT © 2025 — [Aditya](https://github.com/codewith-aditya)
 
 ---
 
 <div align="center">
 
-**Built in 17 minutes. Powered by obsession. 🔥**
+**31 days. Powered by obsession. 🔥**
 
 *ASTRA — Open source. Self-hosted. Built to challenge Claude Code.*
 
@@ -573,6 +566,6 @@ MIT © 2025
 
 ⭐ **Star this repo if ASTRA saved your day**
 
-*If Claude Code charges you, ASTRA is free. Your API key. Your machine. Your rules.*
+*Claude Code charges you. ASTRA is free. Your API key. Your machine. Your rules.*
 
 </div>
